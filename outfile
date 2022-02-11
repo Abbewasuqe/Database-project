@@ -1,0 +1,419 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.1
+-- Dumped by pg_dump version 14.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: Group; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public."Group" (
+    group_id integer NOT NULL,
+    name text NOT NULL,
+    members integer NOT NULL
+);
+
+
+ALTER TABLE public."Group" OWNER TO abdullahwasuqe;
+
+--
+-- Name: Group Member; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public."Group Member" (
+    "Group_member_id" integer NOT NULL,
+    group_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."Group Member" OWNER TO abdullahwasuqe;
+
+--
+-- Name: Order; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public."Order" (
+    id_order integer NOT NULL,
+    "DatePlaced" date NOT NULL,
+    "DatePaid" date NOT NULL,
+    "DateShipped" date NOT NULL,
+    price money NOT NULL,
+    id_user integer NOT NULL
+);
+
+
+ALTER TABLE public."Order" OWNER TO abdullahwasuqe;
+
+--
+-- Name: User; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public."User" (
+    id_user bigint NOT NULL,
+    "FirstName" text NOT NULL,
+    "LastName" text NOT NULL,
+    email text,
+    "RegisterdAt" date NOT NULL,
+    "LastLogin" date NOT NULL,
+    "ModifiedDate" date NOT NULL
+);
+
+
+ALTER TABLE public."User" OWNER TO abdullahwasuqe;
+
+--
+-- Name: User_id_user_seq; Type: SEQUENCE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE SEQUENCE public."User_id_user_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."User_id_user_seq" OWNER TO abdullahwasuqe;
+
+--
+-- Name: User_id_user_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER SEQUENCE public."User_id_user_seq" OWNED BY public."User".id_user;
+
+
+--
+-- Name: category; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public.category (
+    id_category integer NOT NULL,
+    name text NOT NULL
+);
+
+
+ALTER TABLE public.category OWNER TO abdullahwasuqe;
+
+--
+-- Name: orderline; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public.orderline (
+    order_line_id integer NOT NULL,
+    id_order integer NOT NULL,
+    id_product integer NOT NULL,
+    quantity integer NOT NULL,
+    line_item_total numeric NOT NULL
+);
+
+
+ALTER TABLE public.orderline OWNER TO abdullahwasuqe;
+
+--
+-- Name: pet; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public.pet (
+    pet_id integer NOT NULL,
+    id_category integer NOT NULL,
+    breed_profile text NOT NULL,
+    date_of_birth date NOT NULL,
+    image bytea,
+    description text NOT NULL
+);
+
+
+ALTER TABLE public.pet OWNER TO abdullahwasuqe;
+
+--
+-- Name: petaccessory; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public.petaccessory (
+    id_petaccessory integer NOT NULL,
+    name text NOT NULL,
+    image bytea,
+    description text
+);
+
+
+ALTER TABLE public.petaccessory OWNER TO abdullahwasuqe;
+
+--
+-- Name: product; Type: TABLE; Schema: public; Owner: abdullahwasuqe
+--
+
+CREATE TABLE public.product (
+    id_product integer NOT NULL,
+    pet_id integer NOT NULL,
+    id_petaccessory integer NOT NULL,
+    price numeric NOT NULL
+);
+
+
+ALTER TABLE public.product OWNER TO abdullahwasuqe;
+
+--
+-- Name: User id_user; Type: DEFAULT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."User" ALTER COLUMN id_user SET DEFAULT nextval('public."User_id_user_seq"'::regclass);
+
+
+--
+-- Data for Name: Group; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public."Group" (group_id, name, members) FROM stdin;
+1	Little blue penguin	85
+2	Raven, white-necked	61
+3	Dusky gull	13
+4	Dog, bush	35
+5	Lemur, brown	5
+6	Little cormorant	15
+7	Cape cobra	43
+8	White-browed owl	55
+9	House sparrow	51
+10	Red-billed buffalo weaver	72
+\.
+
+
+--
+-- Data for Name: Group Member; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public."Group Member" ("Group_member_id", group_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Order; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public."Order" (id_order, "DatePlaced", "DatePaid", "DateShipped", price, id_user) FROM stdin;
+\.
+
+
+--
+-- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public."User" (id_user, "FirstName", "LastName", email, "RegisterdAt", "LastLogin", "ModifiedDate") FROM stdin;
+\.
+
+
+--
+-- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public.category (id_category, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: orderline; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public.orderline (order_line_id, id_order, id_product, quantity, line_item_total) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pet; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public.pet (pet_id, id_category, breed_profile, date_of_birth, image, description) FROM stdin;
+\.
+
+
+--
+-- Data for Name: petaccessory; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public.petaccessory (id_petaccessory, name, image, description) FROM stdin;
+1	Gembucket	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313233783130302e706e672f6666343434342f666666666666	Horror
+2	Solarbreeze	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313432783130302e706e672f3566613264642f666666666666	Documentary
+3	Zoolab	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313432783130302e706e672f6363303030302f666666666666	Children|Comedy
+4	Redhold	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f323137783130302e706e672f3566613264642f666666666666	Drama
+5	Tres-Zap	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313238783130302e706e672f6464646464642f303030303030	Comedy|Drama
+6	Sonsing	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313934783130302e706e672f6363303030302f666666666666	Drama
+7	Y-find	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313337783130302e706e672f6363303030302f666666666666	Drama|Horror|Mystery|Thriller
+8	Tres-Zap	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313731783130302e706e672f6464646464642f303030303030	Drama|Romance
+9	Redhold	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f313830783130302e706e672f6363303030302f666666666666	Comedy
+10	Job	\\x687474703a2f2f64756d6d79696d6167652e636f6d2f323234783130302e706e672f6464646464642f303030303030	Action
+\.
+
+
+--
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: abdullahwasuqe
+--
+
+COPY public.product (id_product, pet_id, id_petaccessory, price) FROM stdin;
+\.
+
+
+--
+-- Name: User_id_user_seq; Type: SEQUENCE SET; Schema: public; Owner: abdullahwasuqe
+--
+
+SELECT pg_catalog.setval('public."User_id_user_seq"', 1, false);
+
+
+--
+-- Name: Group Member Group Member_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."Group Member"
+    ADD CONSTRAINT "Group Member_pkey" PRIMARY KEY ("Group_member_id");
+
+
+--
+-- Name: Group Group_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."Group"
+    ADD CONSTRAINT "Group_pkey" PRIMARY KEY (group_id);
+
+
+--
+-- Name: Order Order_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."Order"
+    ADD CONSTRAINT "Order_pkey" PRIMARY KEY (id_order);
+
+
+--
+-- Name: User User_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."User"
+    ADD CONSTRAINT "User_pkey" PRIMARY KEY (id_user);
+
+
+--
+-- Name: category category_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_pkey PRIMARY KEY (id_category);
+
+
+--
+-- Name: orderline orderline_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.orderline
+    ADD CONSTRAINT orderline_pkey PRIMARY KEY (order_line_id);
+
+
+--
+-- Name: pet pet_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.pet
+    ADD CONSTRAINT pet_pkey PRIMARY KEY (pet_id);
+
+
+--
+-- Name: petaccessory petaccessory_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.petaccessory
+    ADD CONSTRAINT petaccessory_pkey PRIMARY KEY (id_petaccessory);
+
+
+--
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id_product);
+
+
+--
+-- Name: Group Member group_id; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."Group Member"
+    ADD CONSTRAINT group_id FOREIGN KEY (group_id) REFERENCES public."Group"(group_id) NOT VALID;
+
+
+--
+-- Name: pet id_category; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.pet
+    ADD CONSTRAINT id_category FOREIGN KEY (id_category) REFERENCES public.category(id_category) NOT VALID;
+
+
+--
+-- Name: orderline id_order; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.orderline
+    ADD CONSTRAINT id_order FOREIGN KEY (id_order) REFERENCES public."Order"(id_order) NOT VALID;
+
+
+--
+-- Name: product id_petaccessory; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT id_petaccessory FOREIGN KEY (id_petaccessory) REFERENCES public.petaccessory(id_petaccessory) NOT VALID;
+
+
+--
+-- Name: orderline id_product; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.orderline
+    ADD CONSTRAINT id_product FOREIGN KEY (id_product) REFERENCES public.product(id_product) NOT VALID;
+
+
+--
+-- Name: Order id_user; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."Order"
+    ADD CONSTRAINT id_user FOREIGN KEY (id_user) REFERENCES public."User"(id_user) NOT VALID;
+
+
+--
+-- Name: product pet_id; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT pet_id FOREIGN KEY (pet_id) REFERENCES public.pet(pet_id) NOT VALID;
+
+
+--
+-- Name: Group Member user_id; Type: FK CONSTRAINT; Schema: public; Owner: abdullahwasuqe
+--
+
+ALTER TABLE ONLY public."Group Member"
+    ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES public."User"(id_user) NOT VALID;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
